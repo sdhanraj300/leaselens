@@ -103,7 +103,7 @@ router.post('/scan', async (req: AuthRequest, res: Response) => {
       const parser = new PDFParse({ data: pdfBuffer });
       const result = await parser.getText();
       extractedText = result.text;
-      pageCount = (result as any).total || (result as any).pageCount || (result as any).numpages || 0;
+      pageCount = result.numpages || (result as any).totalPages || 0;
     } catch (parseError) {
       console.error("PDF Parsing Error:", parseError);
       res.write(`data: ${JSON.stringify({ type: 'error', message: "Failed to parse PDF" })}\n\n`);

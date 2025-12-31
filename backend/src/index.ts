@@ -15,11 +15,16 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Health check routes
 app.get('/', (req, res) => {
-  res.json({ message: 'LeaseLens API is running', version: '1.0.0' });
+  res.json({ 
+    message: 'LeaseLens API is running', 
+    version: '1.0.0',
+    env: process.env.VERCEL === '1' ? 'production' : 'development',
+    time: new Date().toISOString()
+  });
 });
 
-app.get('/api', (req, res) => {
-  res.json({ message: 'LeaseLens API Root', status: 'OK' });
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK' });
 });
 
 // Request logger for debugging 404s
@@ -39,6 +44,15 @@ app.use('/api/scans', scansRoutes);
 // Catch-all 404 for API routes - MUST be after all other routes
 app.use('/api', (req, res) => {
   res.status(404).json({ error: `Route ${req.method} ${req.originalUrl} not found` });
+});
+
+// Global Error Handler
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error("GLOBAL_ERROR:", err);
+  res.status(500).json({ 
+    error: "Internal Server Error", 
+    message: err.message 
+  });
 });
 
 // Only start server in non-serverless environment
