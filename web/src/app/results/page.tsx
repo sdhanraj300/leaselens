@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { RedFlagCard } from '@/components/RedFlagCard';
-import { ChevronLeft, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { useAuth } from '@/context/auth';
 import { LeaseScan, Issue } from '@/types';
 import { clsx, type ClassValue } from 'clsx';
@@ -77,14 +77,18 @@ function ResultsContent() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="max-w-3xl mx-auto">
-        <div className="px-6 py-4 bg-white border-b border-slate-100 flex items-center sticky top-0 z-10">
-          <button onClick={() => router.back()} className="p-2 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
-              <ChevronLeft size={22} className="text-slate-900" />
-          </button>
-          <div className="flex-1 text-center mr-8">
-              <h1 className="font-extrabold text-lg text-slate-900">Lease Analysis</h1>
-          </div>
+      <div className="max-w-3xl mx-auto pt-10 px-6">
+        <div className="flex items-center justify-between mb-8">
+           <div>
+              <h1 className="text-3xl font-black text-slate-900">Analysis Report</h1>
+              <p className="text-slate-500 font-medium mt-1">Found {issues.length} points of interest</p>
+           </div>
+           <button 
+             onClick={() => router.back()} 
+             className="px-5 py-2 bg-white border border-slate-100 rounded-xl hover:bg-slate-50 transition-all font-bold text-slate-600 shadow-sm"
+           >
+              Go Back
+           </button>
         </div>
 
         <div className="bg-white px-6 pt-12 pb-16 rounded-b-[40px] shadow-sm mb-8">

@@ -33,26 +33,6 @@ const scaleIn = {
 export default function Onboarding() {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Navigation */}
-      <motion.nav 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full px-6 py-5 flex justify-between items-center max-w-6xl mx-auto"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-            <ShieldCheck color="white" size={24} />
-          </div>
-          <span className="font-bold text-xl text-slate-900">LeaseLens</span>
-        </div>
-        <Link href="/login">
-          <Button variant="outline" className="font-semibold border-2 hover:bg-slate-50">
-            Sign In
-          </Button>
-        </Link>
-      </motion.nav>
-
       {/* Hero Section */}
       <section className="px-6 pt-12 pb-20 max-w-6xl mx-auto">
         <motion.div 

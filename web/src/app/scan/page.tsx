@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, FileText, CheckCircle, AlertTriangle, ClipboardList, ShieldCheck } from 'lucide-react';
 import { useScanLeaseMutation } from '@/lib/query';
+import { toast } from 'sonner';
 
 export default function Scan() {
   const router = useRouter();
@@ -14,10 +15,11 @@ export default function Scan() {
     (data) => {
       // Store result in session storage to pass to results page
       sessionStorage.setItem('lastScanResult', JSON.stringify(data));
+      toast.success('Lease analysis complete!');
       router.push("/results");
     },
     (error) => {
-      alert("Error: " + error.message);
+      toast.error(error.message || 'Scan failed. Please try again.');
     }
   );
 
@@ -33,7 +35,7 @@ export default function Scan() {
     if (!file) return;
 
     if (file.type !== 'application/pdf') {
-      alert("Please upload a PDF file.");
+      toast.error("Please upload a PDF file.");
       return;
     }
 
@@ -45,7 +47,7 @@ export default function Scan() {
       scanMutation.mutate({ 
         fileBase64: base64, 
         fileName: file.name,
-        onProgress: (step, message) => {
+        onProgress: (step) => {
           setLoadingStep(step);
         }
       });
@@ -58,13 +60,8 @@ export default function Scan() {
       {!scanMutation.isPending ? (
         <div className="w-full max-w-md">
           <div className="mb-10 text-center">
-            <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center mb-6 shadow-xl shadow-blue-200 mx-auto">
-               <FileText color="white" size={40} />
-            </div>
-            <h1 className="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">LeaseLens</h1>
-            <p className="text-slate-500 text-lg">
-              AI-powered protection for London renters.
-            </p>
+             <h1 className="text-3xl font-black text-slate-900 mb-2">New Scan</h1>
+             <p className="text-slate-500 font-medium">Upload your contract to begin analysis</p>
           </div>
           
           <button 

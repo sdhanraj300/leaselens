@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -41,33 +41,17 @@ export default function Login() {
       : await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      setError(error.message);
+      toast.error(error.message);
     } else {
-      if (isSignUp) {
-        alert('Check your inbox for email verification!');
-      } else {
-        router.push('/');
-      }
+      toast.success(isSignUp ? 'Account created successfully!' : 'Signed in successfully!');
+      router.push('/');
     }
     setLoading(false);
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 flex flex-col">
-      {/* Navigation */}
-      <motion.nav 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full px-6 py-5 flex justify-between items-center max-w-6xl mx-auto"
-      >
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-            <ShieldCheck color="white" size={24} />
-          </div>
-          <span className="font-bold text-xl text-slate-900">LeaseLens</span>
-        </Link>
-      </motion.nav>
+
 
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-6 pb-12">
