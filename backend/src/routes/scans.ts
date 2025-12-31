@@ -3,7 +3,7 @@ import { prisma } from '../lib/prisma';
 import { pinecone, PINECONE_INDEX_NAME } from '../lib/pinecone';
 import { generateContent, generateEmbedding } from '../lib/gemini';
 import { AuthRequest } from '../middleware/auth';
-const { PDFParse } = require('pdf-parse');
+const pdf = require('pdf-parse');
 
 const router = Router();
 
@@ -76,7 +76,7 @@ router.post('/scan', async (req: AuthRequest, res: Response) => {
     let dbUser = await prisma.user.findUnique({ where: { id: userId } });
     if (!dbUser) {
       dbUser = await prisma.user.create({
-        data: { id: userId, email: user.email!, credits: 5 }
+        data: { id: userId, email: user.email!, credits: 1 }
       });
     }
 
@@ -100,10 +100,9 @@ router.post('/scan', async (req: AuthRequest, res: Response) => {
     let extractedText = "";
     let pageCount = 0;
     try {
-      const parser = new PDFParse({ data: pdfBuffer });
-      const result = await parser.getText();
+      const result = await pdf(pdfBuffer);
       extractedText = result.text;
-      pageCount = result.numpages || (result as any).totalPages || 0;
+      pageCount = result.numpages || 0;
     } catch (parseError) {
       console.error("PDF Parsing Error:", parseError);
       res.write(`data: ${JSON.stringify({ type: 'error', message: "Failed to parse PDF" })}\n\n`);

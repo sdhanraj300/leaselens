@@ -5,7 +5,7 @@ const router = Router();
 
 // Map Gumroad Product IDs to Credit Amounts
 const PRODUCT_CREDITS: Record<string, number> = {
-    'fpnbfj': 10, 
+    'fpnbfj': 1, 
 };
 
 // POST /api/webhooks/gumroad
