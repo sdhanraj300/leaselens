@@ -19,8 +19,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const PORT = parseInt(process.env.PORT || '8080', 10);
-
 // Webhooks must be registered BEFORE global authentication middleware
 app.use('/api/webhooks', paymentRoutes);
 
@@ -34,6 +32,13 @@ app.use('/api', (req, res) => {
   res.status(404).json({ error: `Route ${req.method} ${req.originalUrl} not found` });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Backend server running at http://0.0.0.0:${PORT}`);
-});
+// Only start server in non-serverless environment
+if (process.env.VERCEL !== '1') {
+  const PORT = parseInt(process.env.PORT || '8080', 10);
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Backend server running at http://0.0.0.0:${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+export default app;
