@@ -13,6 +13,18 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// Ensure polyfills for pdf-parse if needed
+try {
+  if (typeof (global as any).DOMMatrix === 'undefined') {
+    const canvas = require('@napi-rs/canvas');
+    (global as any).DOMMatrix = canvas.DOMMatrix;
+    (global as any).ImageData = canvas.ImageData;
+    (global as any).Path2D = canvas.Path2D;
+  }
+} catch (e) {
+  console.warn("PDF Polyfills could not be initialized:", e);
+}
+
 // Health check routes
 app.get('/', (req, res) => {
   res.json({ 
