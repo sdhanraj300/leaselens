@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
-import path from 'path';
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
@@ -20,7 +19,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const PORT = 8080;
+const PORT = parseInt(process.env.PORT || '8080', 10);
 
 // Webhooks must be registered BEFORE global authentication middleware
 app.use('/api/webhooks', paymentRoutes);
