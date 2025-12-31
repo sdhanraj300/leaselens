@@ -5,7 +5,9 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "dev": "bun --watch src/index.ts",
-    "generate": "bun x prisma generate"
+    "generate": "npx prisma generate",
+    "postinstall": "npx prisma generate",
+    "build": "npx tsc"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
