@@ -109,7 +109,10 @@ router.post('/scan', async (req: AuthRequest, res: Response) => {
       return res.end();
     }
 
-    sendStatus(1, "Checking London Laws...");
+    const userCity = dbUser.city || "london";
+    const cityName = userCity === "london" ? "London" : "New York";
+
+    sendStatus(1, `Checking ${cityName} Laws...`);
 
     // Only deduct credit if parsing succeeded
     await prisma.user.update({
@@ -118,9 +121,9 @@ router.post('/scan', async (req: AuthRequest, res: Response) => {
     });
 
     // RAG
-    const queryEmbedding = await generateEmbedding("illegal clauses in tenancy agreements London");
+    const queryEmbedding = await generateEmbedding(`illegal clauses in tenancy agreements ${cityName}`);
     const index = pinecone.index(PINECONE_INDEX_NAME);
-    const queryResponse = await index.query({
+    const queryResponse = await index.namespace(userCity === "london" ? "" : userCity).query({
       vector: queryEmbedding,
       topK: 10,
       includeMetadata: true,
@@ -129,7 +132,7 @@ router.post('/scan', async (req: AuthRequest, res: Response) => {
 
     sendStatus(2, "Analyzing Risk Factors...");
 
-    const prompt = `You are a London Tenancy Lawyer. Analyze this lease against the provided Context laws.
+    const prompt = `You are a ${cityName} Tenancy Lawyer. Analyze this lease against the provided Context laws for ${cityName}.
     
     Context Laws:
     ${context}

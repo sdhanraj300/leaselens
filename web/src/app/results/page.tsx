@@ -10,6 +10,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { useUser } from '@/lib/query';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,6 +20,7 @@ function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { session } = useAuth();
+  const { data: user } = useUser();
 
   const scanId = searchParams.get('id');
 
@@ -104,7 +106,7 @@ function ResultsContent() {
                 </h2>
                 
                 <p className="text-center text-slate-600 leading-relaxed max-w-md font-medium">
-                    We&apos;ve scanned your lease against London Tenancy Laws. Here&apos;s what you need to know.
+                    We&apos;ve scanned your lease against {user?.city === 'new-york' ? 'New York' : 'London'} Tenancy Laws. Here&apos;s what you need to know.
                 </p>
             </div>
 

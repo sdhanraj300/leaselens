@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { LeaseScan } from '@/types';
+import { LeaseScan, User } from '@/types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
@@ -46,7 +46,7 @@ export async function scanLease(
                                 xhr.abort();
                                 reject(new Error(payload.message || "Analysis failed"));
                             }
-                        } catch (e) {
+                        } catch {
                             // Partial JSON chunk
                         }
                     }
@@ -69,4 +69,19 @@ export async function scanLease(
         xhr.onerror = () => reject(new Error("Network request failed"));
         xhr.send(JSON.stringify({ fileBase64, fileName }));
     });
+}
+
+export async function getUser(): Promise<User | null> {
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+    if (!token) return null;
+
+    const res = await fetch(`${API_URL}/api/user`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch user");
+    return res.json();
 }

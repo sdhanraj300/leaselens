@@ -5,7 +5,8 @@ const router = Router();
 
 // Map Gumroad Product IDs to Credit Amounts
 const PRODUCT_CREDITS: Record<string, number> = {
-    'fpnbfj': 1, 
+    'fpnbfj': 1, // London
+    'rdpypr': 1, // New York
 };
 
 // POST /api/webhooks/gumroad

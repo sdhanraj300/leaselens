@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from '@/components/ui/badge';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function Navbar() {
   const { user, session } = useAuth();
@@ -39,6 +39,12 @@ export function Navbar() {
     enabled: !!session?.access_token,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
+
+  useEffect(() => {
+    const handleOpenTopUp = () => setTopUpVisible(true);
+    window.addEventListener('open-topup', handleOpenTopUp);
+    return () => window.removeEventListener('open-topup', handleOpenTopUp);
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -197,7 +203,9 @@ export function Navbar() {
                 <p className="font-black text-slate-900 text-lg">1 Analysis Credit</p>
                 <p className="text-xs font-bold text-blue-600 uppercase tracking-widest">Legal Protection</p>
               </div>
-              <p className="text-2xl font-black text-slate-900">£4.99</p>
+              <p className="text-2xl font-black text-slate-900">
+                {userData?.city === 'new-york' ? '$9.99' : '£4.99'}
+              </p>
             </div>
             
             <p className="text-[10px] text-slate-400 font-bold uppercase text-center tracking-widest mt-4">SECURE CHECKOUT VIA GUMROAD</p>
@@ -207,7 +215,7 @@ export function Navbar() {
                 LATER
               </Button>
               <a
-                href={`https://dhanraj376.gumroad.com/l/fpnbfj?wanted=true&user_id=${user?.id}`}
+                href={`${userData?.city === 'new-york' ? 'https://dhanraj376.gumroad.com/l/rdpypr' : 'https://dhanraj376.gumroad.com/l/fpnbfj'}?wanted=true&user_id=${user?.id}`}
                 target="_blank"
                 className="flex-1 bg-blue-600 text-white flex items-center justify-center rounded-xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all h-14"
               >

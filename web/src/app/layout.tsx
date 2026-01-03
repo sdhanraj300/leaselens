@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "LeaseLens - Safe Renting Starts Here",
-  description: "Analyze your tenancy agreement against London housing laws.",
+  description: "Analyze your tenancy agreement against London & New York housing laws.",
 };
 
 export default function RootLayout({

@@ -11,6 +11,7 @@ generator client {
 model User {
   id        String   @id // Supabase Auth ID
   email     String   @unique
+  city      String   @default("london")
   credits   Int      @default(1)
   createdAt DateTime @default(now())
   scans     Scan[]

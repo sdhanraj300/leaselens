@@ -26,6 +26,7 @@ const staggerContainer = {
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [city, setCity] = useState('london');
   const [loading, setLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +38,15 @@ export default function Login() {
     setError(null);
 
     const { error } = isSignUp 
-      ? await supabase.auth.signUp({ email, password })
+      ? await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            data: {
+              city: city
+            }
+          }
+        })
       : await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
@@ -121,6 +130,31 @@ export default function Login() {
                       />
                     </div>
                   </div>
+
+                  {isSignUp && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="space-y-2"
+                    >
+                      <label className="block mb-2 font-semibold text-slate-700 text-sm">
+                        Select Your City
+                      </label>
+                      <div className="relative">
+                        <select
+                          className="w-full pl-4 pr-10 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 appearance-none font-medium"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                        >
+                          <option value="london">London</option>
+                          <option value="new-york">New York</option>
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                          <ArrowRight className="rotate-90 text-slate-400" size={18} />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
 
                   <Button
                     type="submit"

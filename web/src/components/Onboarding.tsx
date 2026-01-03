@@ -2,6 +2,7 @@
 
 import { ShieldCheck, Monitor, Zap, CreditCard, Lock, Upload, ArrowRight, CheckCircle2, Star, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -100,6 +101,48 @@ export default function Onboarding() {
         </motion.div>
       </section>
 
+      {/* Supported Cities Section */}
+      <section className="px-6 py-20 bg-slate-50">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+              Now Protecting Tenants in Two Megacities
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="text-slate-500 text-lg max-w-2xl mx-auto">
+              Whether you&apos;re moving to the West End or the West Village, we&apos;ve got the local legal expertise you need.
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <motion.div variants={scaleIn} className="bg-white p-8 rounded-[40px] shadow-xl border border-slate-100 flex flex-col items-center text-center">
+              <div className="w-24 h-24 mb-6 relative">
+                <Image src="/london-bridge-svgrepo-com.svg" alt="London" width={96} height={96} className="w-full h-full object-contain" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 mb-2">London</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Full compliance with the Landlord and Tenant Act 1985 and Tenant Fees Act 2019.
+              </p>
+            </motion.div>
+
+            <motion.div variants={scaleIn} className="bg-white p-8 rounded-[40px] shadow-xl border border-slate-100 flex flex-col items-center text-center">
+              <div className="w-24 h-24 mb-6 relative">
+                <Image src="/new-york-famous-building-svgrepo-com.svg" alt="New York" width={96} height={96} className="w-full h-full object-contain" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 mb-2">New York City</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Expert analysis of NYC Rent Stabilization laws and Tenant Protection Act of 2019.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* "Why Web?" Section - 3 Columns */}
       <section className="px-6 py-20 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-6xl mx-auto">
@@ -146,7 +189,7 @@ export default function Onboarding() {
                 icon={<CreditCard size={32} className="text-blue-600" />}
                 title="Pay Only Once"
                 highlight="Moving is expensive enough."
-                description="Pay £4.99 for a single scan. No monthly subscriptions, no impossible-to-cancel free trials. Just results."
+                description="Low one-time fee per scan (£4.99 / $9.99). No monthly subscriptions, no impossible-to-cancel free trials. Just results."
               />
             </motion.div>
           </motion.div>
@@ -171,41 +214,52 @@ export default function Onboarding() {
               </p>
             </motion.div>
 
-            <motion.div variants={scaleIn}>
-              <Card className="bg-white border-2 border-slate-100 shadow-2xl shadow-slate-200/50 rounded-3xl overflow-hidden">
+            <motion.div variants={scaleIn} className="space-y-8">
+              {/* London Example */}
+              <Card className="bg-white border-2 border-slate-100 shadow-xl rounded-3xl overflow-hidden">
                 <CardContent className="p-0">
-                  {/* Mock UI Header */}
-                  <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center gap-3">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-red-400" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                      <div className="w-3 h-3 rounded-full bg-green-400" />
+                  <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-blue-400" />
+                      <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Example: London (Fees Act)</span>
                     </div>
-                    <span className="text-sm text-slate-500 font-medium">LeaseLens Analysis</span>
                   </div>
-                  
-                  {/* Mock Content */}
-                  <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Original Text Side */}
+                  <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-                      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Original Clause</p>
-                      <p className="text-slate-700 text-sm leading-relaxed">
-                        &quot;The Tenant agrees to pay a <span className="bg-yellow-100 text-yellow-800 px-1 rounded font-medium">non-refundable administration fee</span> of £300 upon signing this agreement, in addition to the security deposit...&quot;
-                      </p>
+                      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Lease Excerpt</p>
+                      <p className="text-slate-700 text-sm italic">&quot;Tenant must pay £300 for administrative processing of the reference check...&quot;</p>
                     </div>
-
-                    {/* Analysis Side */}
                     <div className="bg-red-50 rounded-2xl p-5 border border-red-100">
-                      <div className="flex items-center gap-2 mb-3">
-                        <AlertTriangle size={18} className="text-red-500" />
-                        <p className="text-xs font-semibold text-red-600 uppercase tracking-wider">Red Flag Detected</p>
+                      <div className="flex items-center gap-2 mb-2 text-red-600">
+                        <AlertTriangle size={16} />
+                        <p className="text-xs font-bold uppercase">Illegal Fee</p>
                       </div>
-                      <p className="text-slate-700 text-sm leading-relaxed mb-3">
-                        <span className="font-bold text-red-700">Non-refundable fees may be illegal.</span> Under the Tenant Fees Act 2019, landlords in England cannot charge admin fees to tenants.
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        💡 This clause could save you £300 if challenged.
-                      </p>
+                      <p className="text-slate-700 text-sm font-medium">Under the Tenant Fees Act 2019, referencing fees are prohibited in England.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* New York Example */}
+              <Card className="bg-white border-2 border-slate-100 shadow-xl rounded-3xl overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="bg-slate-50 border-b border-slate-100 p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-indigo-400" />
+                      <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Example: NYC (Security Deposit)</span>
+                    </div>
+                  </div>
+                  <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Lease Excerpt</p>
+                      <p className="text-slate-700 text-sm italic">&quot;A security deposit equal to three (3) months rent is required upon execution...&quot;</p>
+                    </div>
+                    <div className="bg-red-50 rounded-2xl p-5 border border-red-100">
+                      <div className="flex items-center gap-2 mb-2 text-red-600">
+                        <AlertTriangle size={16} />
+                        <p className="text-xs font-bold uppercase">Deposit Violation</p>
+                      </div>
+                      <p className="text-slate-700 text-sm font-medium">NYC Law limits security deposits to 1 month&apos;s rent (Housing Stability & Tenant Protection Act 2019).</p>
                     </div>
                   </div>
                 </CardContent>
@@ -298,38 +352,50 @@ export default function Onboarding() {
         </div>
       </section>
 
-      {/* Testimonial */}
+      {/* Testimonials */}
       <section className="px-6 py-20 bg-slate-50">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={scaleIn}
-          >
-            <Card className="bg-white border border-slate-100 shadow-xl rounded-3xl">
-              <CardContent className="p-8 sm:p-12">
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={24} className="fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <blockquote className="text-xl sm:text-2xl text-slate-700 leading-relaxed mb-8 font-medium">
-                  &quot;LeaseLens saved me from signing a lease with a hidden break clause that would have cost me £2,000. 
-                  The AI analysis caught what I completely missed reading it on my phone!&quot;
-                </blockquote>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    SE
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={scaleIn}>
+              <Card className="bg-white border border-slate-100 shadow-xl rounded-3xl h-full">
+                <CardContent className="p-8">
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(5)].map((_, i) => <Star key={i} size={20} className="fill-yellow-400 text-yellow-400" />)}
                   </div>
-                  <div>
-                    <p className="font-bold text-slate-900 text-lg">Sarah E.</p>
-                    <p className="text-slate-500">London Renter, saved £2,000</p>
+                  <blockquote className="text-lg text-slate-700 leading-relaxed mb-8 font-medium italic">
+                    &quot;LeaseLens saved me from signing a lease with a hidden break clause in Clapham. The AI caught a £2,000 pitfall I missed.&quot;
+                  </blockquote>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">SE</div>
+                    <div>
+                      <p className="font-bold text-slate-900">Sarah E.</p>
+                      <p className="text-slate-500 text-xs">London Renter</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={scaleIn}>
+              <Card className="bg-white border border-slate-100 shadow-xl rounded-3xl h-full">
+                <CardContent className="p-8">
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(5)].map((_, i) => <Star key={i} size={20} className="fill-yellow-400 text-yellow-400" />)}
+                  </div>
+                  <blockquote className="text-lg text-slate-700 leading-relaxed mb-8 font-medium italic">
+                    &quot;As a first-time NYC renter, the jargon was overwhelming. LeaseLens flagged an illegal 3-month security deposit request in Brooklyn instantly.&quot;
+                  </blockquote>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold">MJ</div>
+                    <div>
+                      <p className="font-bold text-slate-900">Michael J.</p>
+                      <p className="text-slate-500 text-xs">Brooklyn Renter</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -357,7 +423,7 @@ export default function Onboarding() {
             </Link>
           </motion.div>
           <motion.p variants={fadeIn} className="text-slate-400 text-sm mt-6">
-            Just £4.99 per scan • No subscription • Instant results
+            Low one-time fee • No subscription • Instant results
           </motion.p>
         </motion.div>
       </section>

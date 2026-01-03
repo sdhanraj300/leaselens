@@ -1,6 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
-import { scanLease } from './fetch';
-import { LeaseScan } from '@/types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { scanLease, getUser } from './fetch';
+import { LeaseScan, User } from '@/types';
+
+export const useUser = () => {
+  return useQuery<User | null>({
+    queryKey: ['user'],
+    queryFn: getUser,
+  });
+};
 
 export const useScanLeaseMutation = (
   onSuccess?: (data: LeaseScan) => void,
